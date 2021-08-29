@@ -15,5 +15,7 @@ public class ColliderCreator : MonoBehaviour
 
         collider.points = points;
         collider.edgeRadius = 0.18f;
+        // To be able to participate in collisions
+        obj.AddComponent<Rigidbody2D>();
     }
 }
