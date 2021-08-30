@@ -37,7 +37,6 @@ public class Drawing : MonoBehaviour
         else {
             if(currentLineRenderer != null) {
                 creator.CreateCollider(currentLineRenderer.gameObject);
-                // AddCollider();
                 currentLineRenderer = null;
             }
         }
@@ -57,15 +56,4 @@ public class Drawing : MonoBehaviour
         int positionIndex = currentLineRenderer.positionCount - 1;
         currentLineRenderer.SetPosition(positionIndex, pos);
     }
-
-    // https://forum.unity.com/threads/how-to-add-collider-to-a-line-renderer.505307/
-    // private void AddCollider() {
-    //     var collider = currentLineRenderer.gameObject.AddComponent<PolygonCollider2D>();
-    //     PolygonCollider2D col = new PolygonCollider2D();
-        
-    //     // var collider = currentLineRenderer.gameObject.AddComponent<MeshCollider>();
-    //     // Mesh mesh = new Mesh();
-    //     // currentLineRenderer.BakeMesh(mesh, true);
-    //     // collider.sharedMesh = mesh;
-    // }
 }
