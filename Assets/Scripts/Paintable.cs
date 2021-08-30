@@ -4,10 +4,13 @@ public class Paintable : MonoBehaviour
 {   
     [Range(0,1)]
     public float OverlapThreshold = 0.75f;
+
     private new PolygonCollider2D collider;
+    private Transform cameraTransform;
 
     private void Awake() {
         collider = GetComponent<PolygonCollider2D>();
+        cameraTransform = Camera.main.transform;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -24,9 +27,15 @@ public class Paintable : MonoBehaviour
             int count = worldSpacePoints.Length;
             foreach (var point in worldSpacePoints)
             {
-                if(extCollider.OverlapPoint(point)) {
-                    overlaps++;
+                RaycastHit2D hit = Physics2D.Raycast(cameraTransform.position, point);
+                if(hit) {
+                    if(hit.collider.CompareTag("Brush"))
+                        overlaps++;
                 }
+
+                // if(extCollider.OverlapPoint(point)) {
+                //     overlaps++;
+                // }
             }
             if(overlaps / count > OverlapThreshold)
                 print("Overlapped successfully");
