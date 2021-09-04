@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     public float walkSpeed = 3f;
     public float jumpForce = 5f;
+    public bool isGrounded = true;
 
     private Rigidbody2D rb;
 
@@ -14,15 +15,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 newTransform = transform.position;
         if(Input.GetKey(KeyCode.LeftArrow)) {
-            rb.velocity = Vector2.left * walkSpeed;
+            newTransform.x -= walkSpeed * Time.deltaTime;
+            // rb.velocity = Vector2.left * walkSpeed;
         }
         else if(Input.GetKey(KeyCode.RightArrow)) {
-            rb.velocity = Vector2.right * walkSpeed;
+            newTransform.x += walkSpeed * Time.deltaTime;
+            // rb.velocity = Vector2.right * walkSpeed;
         }
-
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            rb.AddForce(Vector2.up * jumpForce);
+        transform.position = newTransform;
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded) {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
 }
