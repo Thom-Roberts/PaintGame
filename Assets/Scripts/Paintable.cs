@@ -13,32 +13,32 @@ public class Paintable : MonoBehaviour
         cameraTransform = Camera.main.transform;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        var extCollider = collision.collider;
-        if(extCollider.CompareTag("Brush")) {
-            print("Collided");
-            var points = collider.points;
-            var worldSpacePoints = new Vector2[points.Length];
-            for(int i = 0; i < points.Length; ++i) {
-                worldSpacePoints[i] = collider.transform.TransformPoint(points[i]);
-            }
-
-            int overlaps = 0;
-            int count = worldSpacePoints.Length;
-            foreach (var point in worldSpacePoints)
-            {
-                RaycastHit2D hit = Physics2D.Raycast(cameraTransform.position, point);
-                if(hit) {
-                    if(hit.collider.CompareTag("Brush"))
-                        overlaps++;
-                }
-
-                // if(extCollider.OverlapPoint(point)) {
-                //     overlaps++;
-                // }
-            }
-            if(overlaps / count > OverlapThreshold)
-                print("Overlapped successfully");
+    private void OnTriggerEnter2D(Collider2D other) {
+        print("Trigger entered");
+        if(TestCovered(other)) {
+            print("Success");
         }
+        else
+            print("Failure");
+    }
+
+    public bool TestCovered(Collider2D otherCollider) {
+        var points = collider.points;
+        var worldSpacePoints = new Vector2[points.Length];
+        for(int i = 0; i < points.Length; ++i) {
+            worldSpacePoints[i] = collider.transform.TransformPoint(points[i]);
+        }
+
+        int overlaps = 0;
+        int count = worldSpacePoints.Length;
+        foreach (var point in worldSpacePoints)
+        {
+            if(otherCollider.OverlapPoint(point))
+                overlaps++;
+        }
+        if(overlaps / count > OverlapThreshold)
+            return true;
+        else
+            return false;
     }
 }
