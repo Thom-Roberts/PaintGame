@@ -31,9 +31,14 @@ public class Paintable : MonoBehaviour
 
         int overlaps = 0;
         int count = worldSpacePoints.Length;
+        
+        // Test using the mesh bounds of the line
+        var line = otherCollider.GetComponent<LineRenderer>();
+        Mesh mesh = new Mesh();
+        line.BakeMesh(mesh, true);
         foreach (var point in worldSpacePoints)
         {
-            if(otherCollider.OverlapPoint(point))
+            if(mesh.bounds.Contains(point))
                 overlaps++;
         }
         if(overlaps / count > OverlapThreshold)

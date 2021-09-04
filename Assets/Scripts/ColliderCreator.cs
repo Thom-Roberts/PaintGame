@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ColliderCreator : MonoBehaviour
 {
+    // Used to trigger a collision
     public void CreateCollider(GameObject obj) {
         var lineRenderer = obj.GetComponent<LineRenderer>();
         Vector3[] positions = new Vector3[lineRenderer.positionCount];
